@@ -47,6 +47,10 @@ def build(root=ROOT):
         archive = stage / "data/water.json.gz"
         with gzip.open(archive, "rb") as source, archive.with_suffix("").open("wb") as target:
             shutil.copyfileobj(source, target)
+        with archive.with_suffix("").open(encoding="utf-8") as water:
+            snapshot = json.load(water)
+        summary = {"retrieved_at": snapshot["retrieved_at"], "segments": len(snapshot["features"])}
+        (stage / "data/status.json").write_text(json.dumps(summary) + "\n", encoding="utf-8")
         archive.unlink()
         index = stage / "index.html"
         page = index.read_text(encoding="utf-8")
