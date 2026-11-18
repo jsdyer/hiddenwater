@@ -1,12 +1,17 @@
 {
-  "id": "coolcode-tool-template",
-  "title": "CoolCode Tool Starter",
-  "description": "A browser-only example that trims lines and removes exact duplicates.",
-  "category": "security",
-  "tags": ["text", "lines", "duplicates"],
-  "icon": "scan-search",
-  "url": "/coolcode-tool-template/",
-  "source": "https://github.com/jsdyer/coolcode-tool-template",
+  "id": "hiddenwater",
+  "title": "Hidden Water",
+  "description": "Explore Langley creeks, drainage channels and mapped culverts.",
+  "category": "places",
+  "tags": [
+    "canada",
+    "local",
+    "public data",
+    "langley"
+  ],
+  "icon": "map",
+  "url": "/hiddenwater/",
+  "source": "https://github.com/jsdyer/hiddenwater",
   "hosting": "project",
   "access": "browser"
 }

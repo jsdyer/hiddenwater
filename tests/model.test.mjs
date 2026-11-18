@@ -1,21 +1,13 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import { cleanLines } from '../web/model.mjs';
-test('trims, removes blanks and preserves first-seen order', () => {
-  assert.deepEqual(cleanLines('  Halifax\nLangley\nHalifax\n\nVancouver  '), {
-    text: 'Halifax\nLangley\nVancouver', count: 3, removed: 1,
-  });
+import test from 'node:test';import assert from 'node:assert/strict';
+import {filterWater,intersects} from '../web/model.mjs';import {csv} from '../web/common.mjs';
+const f=(id,name,kind='Creek',jurisdiction='Township')=>({properties:{id,name,kind,jurisdiction,classification:'A',bbox:[-122.7,49.1,-122.6,49.2]}});
+test('search, source and culvert filters compose',()=>{const rows=[f('1','Yorkson Creek'),f('2','Yorkson culvert','Culvert'),f('3','Yorkson Creek','Watercourse','City')];assert.equal(filterWater(rows,{query:' YORKSON ',jurisdiction:'Township'}).length,1);assert.equal(filterWater(rows,{culverts:true}).length,3);assert.equal(filterWater(rows,{bbox:[0,0,1,1]}).length,0);});
+test('touching map bounds remain included',()=>assert.equal(intersects([0,0,1,1],[1,1,2,2]),true));
+test('exports quote cells and neutralize spreadsheet formulas',()=>assert.equal(csv([['=SUM(A1)','a"b',null]]),'"\'=SUM(A1)","a""b",""'));
+
+import {placeNameLink} from '../web/place-names.mjs';
+test('local names open their reviewed provincial record', () => {
+  assert.equal(placeNameLink('Yorkson Creek'), 'https://coolcode.ca/bcplacenames/#name=25298');
+  assert.equal(placeNameLink('Salmon River'), 'https://coolcode.ca/bcplacenames/#name=13640');
+  assert.equal(placeNameLink('Unnamed channel'), null);
 });
-test('supports Windows and old Mac line endings', () => {
-  assert.equal(cleanLines('a\r\nb\ra').text, 'a\nb');
-});
-test('empty text and whitespace produce an empty result', () => {
-  assert.deepEqual(cleanLines(' \n\t'), { text: '', count: 0, removed: 0 });
-});
-test('preserves case and Unicode', () => {
-  assert.equal(cleanLines('Québec\nquébec\n東京\nQuébec').text, 'Québec\nquébec\n東京');
-});
-test('treats markup as ordinary text', () => {
-  assert.equal(cleanLines('<script>alert(1)</script>\n<script>alert(1)</script>').text, '<script>alert(1)</script>');
-});
-test('rejects non-text input', () => { assert.throws(() => cleanLines(null), TypeError); });

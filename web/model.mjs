@@ -1,7 +1,4 @@
-// Keep transformations separate from the DOM so they can be tested directly.
-export function cleanLines(text) {
-  if (typeof text !== 'string') throw new TypeError('Expected text');
-  const lines = text.split(/\r\n|\r|\n/).map(line => line.trim()).filter(Boolean);
-  const unique = [...new Set(lines)];
-  return { text: unique.join('\n'), count: unique.length, removed: lines.length - unique.length };
-}
+export const PAGE_SIZE=60;
+export function intersects(a,b){return a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1];}
+export function filterWater(features,{query='',jurisdiction='',kind='',classification='',culverts=false,bbox=null}={}){const q=query.trim().toLocaleLowerCase();return features.filter(({properties:p})=>(!q||p.name.toLocaleLowerCase().includes(q))&&(!jurisdiction||p.jurisdiction===jurisdiction)&&(!kind||p.kind===kind)&&(!classification||p.classification===classification)&&(culverts||p.kind!=='Culvert')&&(!bbox||intersects(p.bbox,bbox))).sort((a,b)=>a.properties.name.localeCompare(b.properties.name)||a.properties.id.localeCompare(b.properties.id));}
+export function featureBounds(f){const b=f.properties.bbox;return [[b[1],b[0]],[b[3],b[2]]];}

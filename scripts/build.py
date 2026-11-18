@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build a browser tool using Python's standard library; no network required."""
+import gzip
 from html import escape
 import json
 from pathlib import Path
@@ -43,6 +44,10 @@ def build(root=ROOT):
     with tempfile.TemporaryDirectory(prefix="coolcode-tool-") as temporary:
         stage = Path(temporary) / "site"
         shutil.copytree(web, stage)
+        archive = stage / "data/water.json.gz"
+        with gzip.open(archive, "rb") as source, archive.with_suffix("").open("wb") as target:
+            shutil.copyfileobj(source, target)
+        archive.unlink()
         index = stage / "index.html"
         page = index.read_text(encoding="utf-8")
         for token, key in {"TITLE": "title", "DESCRIPTION": "description", "TOOL_ID": "id", "SOURCE_URL": "source"}.items():

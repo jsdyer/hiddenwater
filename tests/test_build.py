@@ -32,6 +32,8 @@ class BuildTests(unittest.TestCase):
         self.assertIn('href="./style.css"', page)
         self.assertFalse((self.root / "dist/private.txt").exists())
         self.assertTrue((self.root / "dist/.nojekyll").exists())
+        self.assertTrue((self.root / 'dist/data/water.json').is_file())
+        self.assertFalse((self.root / 'dist/data/water.json.gz').exists())
 
     def test_url_matches_tool_id(self):
         self.edit(url="/different/")
