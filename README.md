@@ -71,4 +71,4 @@ Review source/count changes before committing.
 
 ## Privacy
 
-The app does not retain searches or location history. Searches run against a bundled public snapshot in your browser. OpenStreetMap receives tile requests for the viewed map area. There are no accounts or analytics. Sharing places the selected record or comparison view in the URL; it does not upload private files. External source links open the original provider.
+The app does not retain searches or location history. Searches run against a bundled public snapshot in your browser. OpenStreetMap receives tile requests for the viewed map area. CoolCode counts page opens by tool ID. The count excludes searches and locations. Sharing places the selected record or comparison view in the URL; it does not upload private files. External source links open the original provider.
