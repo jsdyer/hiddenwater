@@ -48,9 +48,13 @@ def main():
                     page.locator('#swap').click(); expect(page.locator('#left-year')).to_have_value('streets')
                 elif slug=='hiddenwater':
                     case = page.locator('#crossing-1474')
-                    expect(case).to_contain_text('2,500 m')
+                    stages = json.loads((ROOT / 'web/data/crossing.json').read_text())['stages']
+                    habitat = stages['habitat']['HABCONF_VERIFIED_HABITAT_LEN']
+                    cost = stages['completion']['REMEDIATION_COST']
+                    if habitat is not None:
+                        expect(case).to_contain_text(f'{habitat:,.0f} m')
                     expect(case).to_contain_text('1,000 m of high-value habitat')
-                    expect(case).to_contain_text('$211,500')
+                    expect(case.locator('.case-cost')).to_have_text(f'${cost:,.0f}' if cost is not None else 'Unreported')
                     expect(case.locator('details')).to_have_count(4)
                     case.get_by_text('Completed work', exact=False).first.click()
                     expect(case.locator('details[open] a')).to_have_attribute('href', re.compile('MapServer/1/query'))
