@@ -2,6 +2,7 @@
 """Build a browser tool using Python's standard library; no network required."""
 import gzip
 from html import escape
+from case_page import render_case
 import json
 from pathlib import Path
 import re
@@ -16,7 +17,7 @@ SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 def metadata(root=ROOT):
     tool = json.loads((root / "tool.json").read_text(encoding="utf-8"))
     required = {"id", "title", "description", "category", "tags", "icon", "url", "source", "hosting", "access"}
-    if not isinstance(tool, dict) or set(tool) != required:
+    if not isinstance(tool, dict) or not required <= set(tool) <= required | {"data_info"}:
         raise ValueError("tool.json has missing or unknown fields")
     for key in required - {"tags"}:
         if not isinstance(tool[key], str) or not tool[key].strip():
@@ -49,11 +50,12 @@ def build(root=ROOT):
             shutil.copyfileobj(source, target)
         with archive.with_suffix("").open(encoding="utf-8") as water:
             snapshot = json.load(water)
-        summary = {"retrieved_at": snapshot["retrieved_at"], "segments": len(snapshot["features"])}
+        crossing = json.loads((stage / "data/crossing.json").read_text())
+        summary = {"crossing_retrieved": crossing["retrieved"], "retrieved_at": snapshot["retrieved_at"], "segments": len(snapshot["features"])}
         (stage / "data/status.json").write_text(json.dumps(summary) + "\n", encoding="utf-8")
         archive.unlink()
         index = stage / "index.html"
-        page = index.read_text(encoding="utf-8")
+        page = index.read_text(encoding="utf-8").replace("{{CROSSING_CASE}}", render_case(crossing))
         for token, key in {"TITLE": "title", "DESCRIPTION": "description", "TOOL_ID": "id", "SOURCE_URL": "source"}.items():
             placeholder = "{{" + token + "}}"
             if placeholder not in page:

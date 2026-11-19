@@ -1,17 +1,50 @@
 {
   "id": "hiddenwater",
   "title": "Hidden Water",
-  "description": "Explore Langley creeks, drainage channels and mapped culverts.",
+  "description": "Explore mapped Langley waterways and follow a Fraser Valley fish crossing from barrier assessment to completed repair.",
   "category": "places",
   "tags": [
-    "canada",
-    "local",
-    "public data",
-    "langley"
+    "bc",
+    "Langley",
+    "watercourses",
+    "creeks",
+    "culverts",
+    "drainage",
+    "Willoughby"
   ],
   "icon": "map",
   "url": "/hiddenwater/",
   "source": "https://github.com/jsdyer/hiddenwater",
   "hosting": "project",
-  "access": "browser"
+  "access": "browser",
+  "data_info": {
+    "mode": "snapshot",
+    "detail": "Langley maps trace channels and culverts. BC fish-passage records document the assessment, habitat and repair of crossing 1474.",
+    "probes": [
+      {
+        "url": "https://coolcode.ca/hiddenwater/data/status.json",
+        "path": [
+          "retrieved_at"
+        ],
+        "label": "Waterways retrieved",
+        "count_at": {
+          "path": [
+            "segments"
+          ],
+          "unit": "mapped segments"
+        },
+        "value": "2026-11-18",
+        "count": 28921
+      },
+      {
+        "url": "https://coolcode.ca/hiddenwater/data/status.json",
+        "path": [
+          "crossing_retrieved"
+        ],
+        "label": "Fish passage retrieved",
+        "value": "2026-11-19"
+      }
+    ],
+    "cadence": "Weekly"
+  }
 }

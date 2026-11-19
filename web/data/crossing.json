@@ -1,0 +1,29 @@
+{
+  "retrieved": "2026-11-19",
+  "id": 1474,
+  "stages": {
+    "design": {
+      "date": "2003-05-06",
+      "source": "https://delivery.maps.gov.bc.ca/arcgis/rest/services/whse/bcgw_pub_whse_fish/MapServer/11/query?where=STREAM_CROSSING_ID%3D1474&outFields=STREAM_CROSSING_ID%2CPROPOSAL_DATE%2CCROSSING_FIX_DESC&f=pjson&returnGeometry=false",
+      "CROSSING_FIX_DESC": "Replace with new open bottom structure"
+    },
+    "assessment": {
+      "date": "2011-05-01",
+      "source": "https://delivery.maps.gov.bc.ca/arcgis/rest/services/whse/bcgw_pub_whse_fish/MapServer/15/query?where=STREAM_CROSSING_ID%3D1474&outFields=STREAM_CROSSING_ID%2CASSESSMENT_DATE%2CBARRIER_RESULT_DESCRIPTION&f=pjson&returnGeometry=false",
+      "BARRIER_RESULT_DESCRIPTION": "Barrier"
+    },
+    "habitat": {
+      "date": "2011-05-01",
+      "source": "https://delivery.maps.gov.bc.ca/arcgis/rest/services/whse/bcgw_pub_whse_fish/MapServer/3/query?where=STREAM_CROSSING_ID%3D1474&outFields=STREAM_CROSSING_ID%2CASSMT_DATE%2CHABCONF_VERIFIED_HABITAT_LEN&f=pjson&returnGeometry=false",
+      "HABCONF_VERIFIED_HABITAT_LEN": 2500
+    },
+    "completion": {
+      "date": "2016-02-28",
+      "source": "https://delivery.maps.gov.bc.ca/arcgis/rest/services/whse/bcgw_pub_whse_fish/MapServer/1/query?where=STREAM_CROSSING_ID%3D1474&outFields=STREAM_CROSSING_ID%2CCOMPLETION_DATE%2CROAD_NAME%2CSTREAM_NAME%2CCROSSING_FIX_DESC%2CREMEDIATION_COST&f=pjson&returnGeometry=false",
+      "ROAD_NAME": "Chilliwack Bench FSR",
+      "STREAM_NAME": "Chilliwack River",
+      "CROSSING_FIX_DESC": "Replace with new open bottom structure",
+      "REMEDIATION_COST": 211500.0
+    }
+  }
+}

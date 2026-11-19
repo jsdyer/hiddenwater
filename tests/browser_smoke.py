@@ -2,6 +2,8 @@
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import os
+import re
 import json, shutil, tempfile, threading
 from urllib.parse import parse_qs, urlsplit
 from playwright.sync_api import sync_playwright, expect
@@ -18,7 +20,7 @@ def main():
         threading.Thread(target=server.serve_forever,daemon=True).start()
         try:
             with sync_playwright() as p:
-                browser=p.chromium.launch(); page=browser.new_page(viewport={'width':1440,'height':1050})
+                browser=p.chromium.launch(executable_path=os.environ.get("CHROMIUM_PATH")); page=browser.new_page(viewport={'width':1440,'height':1050})
                 errors=[]; page.on('pageerror',lambda e:errors.append(str(e)))
                 svg='<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><rect width="256" height="256" fill="#dce4d5"/></svg>'
                 page.route('https://tile.openstreetmap.org/**',lambda r:r.fulfill(content_type='image/svg+xml',body=svg))
@@ -45,6 +47,14 @@ def main():
                     expect(page.locator('#reveal')).to_have_value('70')
                     page.locator('#swap').click(); expect(page.locator('#left-year')).to_have_value('streets')
                 elif slug=='hiddenwater':
+                    case = page.locator('#crossing-1474')
+                    expect(case).to_contain_text('2,500 m')
+                    expect(case).to_contain_text('1,000 m of high-value habitat')
+                    expect(case).to_contain_text('$211,500')
+                    expect(case.locator('details')).to_have_count(4)
+                    case.get_by_text('Completed work', exact=False).first.click()
+                    expect(case.locator('details[open] a')).to_have_attribute('href', re.compile('MapServer/1/query'))
+                    expect(case.get_by_text('Explore Chilliwack River coho', exact=False)).to_have_attribute('href', 'https://coolcode.ca/salmonlines/#series=46982-62&measure=legacy')
                     page.locator('.result').first.wait_for()
                     page.locator('#in-view').uncheck(); page.locator('#query').fill('Yorkson')
                     page.locator('#filters button[type="submit"]').click()

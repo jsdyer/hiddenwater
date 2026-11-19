@@ -28,6 +28,8 @@ jobs:
           node-version: '24'
       - name: Refresh municipal snapshot
         run: python3 scripts/refresh.py
+      - name: Refresh provincial crossing records
+        run: python3 scripts/crossing.py
       - name: Test the application
         run: node --test tests/*.test.mjs
       - name: Test the builder
