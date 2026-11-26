@@ -90,6 +90,13 @@ def main():
                     page.locator('#willoughby').click(); page.locator('.result').first.wait_for()
                 page.screenshot(path=str(shots/'desktop.png'),full_page=True)
                 page.set_viewport_size({'width':390,'height':844})
+                page.goto(base)
+                expect(page.locator('#map-area')).to_have_text('Willoughby waterways')
+                expect(page.locator('[data-place="willoughby"]')).to_have_attribute('aria-pressed', 'true')
+                assert 0 <= page.locator('#map').bounding_box()['y'] < 844
+                assert page.locator('#map').bounding_box()['y'] < page.locator('#filters').bounding_box()['y']
+                page.locator('[data-place="fort"]').click()
+                expect(page.locator('#map-area')).to_have_text('Fort Langley waterways')
                 assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), 'Mobile page overflows horizontally'
                 page.screenshot(path=str(shots/'mobile.png'),full_page=True)
                 if slug!='halifaxtimelens':
