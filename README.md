@@ -18,7 +18,7 @@ The weekly refresh runs `python3 scripts/crossing.py` against the provincial lay
 
 ## What you can do
 
-- Search waterways by name, municipality, type and published classification.
+- Search waterways by name, municipality, type and published classification. A named view such as [Yorkson Creek](https://coolcode.ca/hiddenwater/#waterway=Yorkson+Creek) opens all matching mapped reaches in the current snapshot.
 - Pan the map, use neighbourhood shortcuts, inspect source records, and share a segment.
 - Follow named waterways to the [BC Place Names Explorer](https://coolcode.ca/bcplacenames/). A set of local names links directly to a reviewed provincial name record. Other named segments offer a general search link.
 - Export matching records as CSV or GeoJSON with source IDs and retrieval time.

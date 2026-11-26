@@ -71,6 +71,20 @@ def main():
                     with page.expect_download() as info:page.locator('#geojson').click()
                     data=json.loads(Path(info.value.path()).read_text()); assert data['features'] and data['sources']
                     page.goto(url); page.locator('#detail h2').wait_for()
+                    snapshot = json.loads((ROOT / 'dist/data/water.json').read_text())
+                    yorkson = [r for r in snapshot['features'] if r['properties']['name'] == 'Yorkson Creek' and r['properties']['kind'] != 'Culvert']
+                    fragments = ['waterway=Yorkson+Creek']
+                    previous_id = 'channels:9c7edd00-c189-44a7-a478-6b6c93f79ddf'
+                    if not any(r['properties']['id'] == previous_id for r in snapshot['features']):
+                        fragments.append('record=' + previous_id)
+                    for fragment in fragments:
+                        page.goto(base + '#' + fragment)
+                        expect(page.locator('#map-area')).to_have_text('Yorkson Creek')
+                        expect(page.locator('#count')).to_have_text(str(len(yorkson)))
+                        expect(page.locator('#detail')).to_contain_text('mapped reach')
+                        expect(page.locator('#detail a')).to_have_attribute('href', 'https://coolcode.ca/salmonlines/series/47959-26/')
+                    page.locator('.result').first.click()
+                    expect(page.get_by_role('link',name='Read the DFO coho estimates')).to_have_attribute('href', 'https://coolcode.ca/salmonlines/series/47959-26/')
                     page.locator('#query').fill('nonexistentwaterwayzzzz'); page.locator('#filters button[type="submit"]').click()
                     expect(page.locator('#status')).to_contain_text('No matching'); assert page.locator('#csv').is_disabled()
                     page.locator('[data-place="city"]').click(); page.locator('.result').first.wait_for()

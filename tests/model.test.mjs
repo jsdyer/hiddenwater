@@ -11,3 +11,9 @@ test('local names open their reviewed provincial record', () => {
   assert.equal(placeNameLink('Salmon River'), 'https://coolcode.ca/bcplacenames/#name=13640');
   assert.equal(placeNameLink('Unnamed channel'), null);
 });
+
+test('named waterway links match exact names and keep ordinary text searches broad', () => {
+  const rows = [f('main', 'Yorkson Creek'), f('branch', 'Yorkson Creek Tributary')];
+  assert.deepEqual(filterWater(rows, {query: 'yorkson creek', exactName: true}), [rows[0]]);
+  assert.equal(filterWater(rows, {query: 'yorkson creek'}).length, 2);
+});
