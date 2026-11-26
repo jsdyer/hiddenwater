@@ -37,6 +37,6 @@ def render_case(data):
 <p><a href="{REPORT}">Read project 21 in the provincial report, PDF p. 16 ↗</a></p>
 <h3>Follow the records</h3>{''.join(timeline)}
 <p>The report names cutthroat trout and lists coho among the possible beneficiaries. The DFO Chilliwack River coho series provides historical watershed context. Its surveys cover a different geographic unit from this crossing.</p>
-<p><a href="https://coolcode.ca/salmonlines/#series=46982-62&amp;measure=legacy">Explore Chilliwack River coho in Salmon Lines ↗</a> · <a href="https://smnorris.github.io/bcfishpass/">Stream-network connectivity methods in bcfishpass ↗</a></p>
+<p><a href="https://coolcode.ca/salmonlines/series/46982-62/">Read the Chilliwack River coho estimates in Salmon Lines ↗</a> · <a href="https://smnorris.github.io/bcfishpass/">Stream-network connectivity methods in bcfishpass ↗</a></p>
 <p class="hint">Contains information licensed under the <a href="https://www2.gov.bc.ca/gov/content/data/open-data/open-government-licence-bc">Open Government Licence – British Columbia</a>.</p>
 </div></section>'''
